@@ -4,41 +4,18 @@ func isValid(s string) bool {
     }
 
     var stack []rune
-
+    closeToOpen := map[string]string{")": "(", "]": "[", "}": "{"}
+    
     for _, r := range s {
-        if r == 40 || r == 91 || r == 123 {
+        val, ok := closeToOpen[string(r)]
+        if ok {
+            if len(stack) > 0 && string(stack[len(stack)-1]) == val {
+                stack = stack[:len(stack)-1]
+            } else {
+                return false
+            }
+        } else {
             stack = append(stack, r)
-            continue
-        }
-
-        if len(stack) == 0 && (r == 41 || r == 93 || r == 125) {
-            return false
-        }
-
-        if len(stack) > 0 {
-            if r == 41 {
-                if stack[len(stack)-1] == 40  {
-                    stack = stack[:len(stack)-1]
-                    continue
-                }
-                return false
-            }
-
-            if r == 93 {
-                if stack[len(stack)-1] == 91 {
-                    stack = stack[:len(stack)-1]
-                    continue
-                }
-                return false
-            }
-
-            if r == 125 {
-                if stack[len(stack)-1] == 123 {
-                    stack = stack[:len(stack)-1]
-                    continue
-                }
-                return false
-            }
         }
     }
 
