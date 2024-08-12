@@ -1,18 +1,8 @@
 func countBits(n int) []int {
-    var res []int
-
+    res := make([]int, n + 1)
     
-    for num := range n+1 {
-        nRes := 0
-
-        for num != 0 {
-            if num & 1 == 1 {
-                nRes++
-            }
-            num >>= 1
-        }
-
-        res = append(res, nRes)
+    for i := 1; i <= n; i++ {
+        res[i] = res[i>>1] + (i & 1)
     }
 
     return res
