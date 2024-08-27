@@ -1,25 +1,25 @@
 func topKFrequent(nums []int, k int) []int {
-    m := make(map[int]int)
+    m := map[int]int{}
+    count := make([][]int, len(nums)+1)
+    res := []int{}
 
     for _, n := range nums {
-        m[n]++
+        if c, ok := m[n]; ok {
+            m[n] = c + 1
+        } else {
+            m[n] = 1
+        }
     }
 
-    pairs := make([][2]interface{}, 0, len(m))
-    for k, v := range m {
-        pairs = append(pairs, [2]interface{}{k, v})
+    for n, c := range m {
+        count[c] = append(count[c], n)
     }
 
-    sort.Slice(pairs, func(i, j int) bool {
-        return pairs[i][1].(int) > pairs[j][1].(int)
-    })
-
-    res := make([]int, k)
-    for i, p := range pairs {
-        if i > k-1 {
+    for i := len(count) - 1; i > 0; i-- {
+        res = append(res, count[i]...)
+        if len(res) == k {
             break
         }
-        res[i] = p[0].(int)
     }
 
     return res
