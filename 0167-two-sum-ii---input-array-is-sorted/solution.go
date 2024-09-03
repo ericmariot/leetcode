@@ -1,18 +1,15 @@
-func twoSum(numbers []int, target int) []int {
-    start := 0
-    end := len(numbers)-1
+func twoSum(nums []int, t int) []int {
+    b := 0
+    e := len(nums)-1
 
-    for end >= start {
-        if numbers[start] + numbers[end] == target {
-            return []int{start+1, end+1}
-        }
-
-        if numbers[start] + numbers[end] > target {
-            end--
-        }
-
-        if numbers[start] + numbers[end] < target {
-            start++
+    for e >= b {
+        switch {
+            case nums[b] + nums[e] > t:
+                e--
+            case nums[b] + nums[e] < t:
+                b++
+            default:
+                return []int{b+1, e+1}
         }
     }
 
